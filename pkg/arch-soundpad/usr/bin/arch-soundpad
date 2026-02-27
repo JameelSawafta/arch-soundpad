@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-exec python3 /usr/share/arch-soundpad/soundpad_app.py

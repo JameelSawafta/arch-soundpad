@@ -1,1 +1,0 @@
-/home/jameel-sawafta/temp/arch-soundpad/soundpad_app.py
