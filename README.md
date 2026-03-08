@@ -1,80 +1,248 @@
 # Arch Soundpad (dwm-friendly)
 
-Simple Soundpad-like app for Arch Linux with a GUI.
+Simple **Soundpad-like application for Arch Linux** with a GUI.
 
-It does three things:
-- Lets you add/play/stop sound clips from a desktop UI.
-- Creates a virtual sink (`soundpad_sink`) and virtual microphone (`soundpad_mic`) using `pactl`.
-- Plays selected sounds into that virtual mic so you can pick `soundpad_mic` in Discord, OBS, games, etc.
-- Lets you set custom hotkeys per clip (for example `Alt+1`, `Ctrl+F`).
-- Can route your real microphone into the same virtual mic (`soundpad_mic`) so voice + effects are mixed.
-- Supports multiple profiles (different clip lists and keybind sets).
-- Supports profile export/import as JSON for backup/share.
-- Adds automatic profile backups on every profile save in `~/.config/arch-soundpad/backups/`.
-- Includes push-to-talk mic route mode with configurable hotkey.
-- Includes a diagnostics button for one-click health checks.
+It allows you to trigger sound effects and route them through a **virtual microphone** so they can be used in **Discord, OBS, games, or voice chat applications**.
 
-## Dependencies (Arch)
+---
+
+## Features
+
+- GUI soundpad for Linux
+- Add, play, and stop sound clips
+- Virtual microphone output (`soundpad_mic`)
+- Works with Discord, OBS, games, etc.
+- Global hotkeys (X11 compatible, works with dwm)
+- Custom hotkeys per sound clip
+- Multiple profiles
+- Profile export/import via JSON
+- Automatic profile backups
+- Push-to-talk microphone routing
+- Diagnostics tool for troubleshooting
+
+---
+
+## How It Works
+
+The application:
+
+1. Creates a **virtual sink** called `soundpad_sink`.
+2. Creates a **virtual microphone** called `soundpad_mic`.
+3. Plays audio clips into the virtual sink.
+4. Routes the sink to the virtual microphone so other apps can use it.
+
+You simply select **`soundpad_mic`** as your microphone in Discord or other apps.
+
+---
+
+# Dependencies (Arch Linux)
+
+Install dependencies:
 
 ```bash
 sudo pacman -Syu python tk ffmpeg pipewire pipewire-pulse python-xlib
 ```
 
-If you see `ImportError: libtk8.6.so` then your system is missing `tk` or has a partial upgrade. Run full upgrade:
+If you see:
+
+```
+ImportError: libtk8.6.so
+```
+
+Your system likely has a **partial upgrade**.
+
+Fix it with:
 
 ```bash
 sudo pacman -Syu
 ```
 
-## Run
+---
+
+# Installation
+
+Clone the repository:
 
 ```bash
-cd /home/jameel-sawafta/temp/arch-soundpad
+git clone https://github.com/YOUR_USERNAME/arch-soundpad.git
+cd arch-soundpad
+```
+
+Run the application:
+
+```bash
 ./run.sh
 ```
 
-## Install as desktop app
+---
+
+# Install as Desktop Application
 
 ```bash
-cd /home/jameel-sawafta/temp/arch-soundpad
 ./install.sh
 ```
 
 This creates:
-- `~/.local/bin/arch-soundpad`
-- `~/.local/share/applications/arch-soundpad.desktop`
 
-## Usage
+```
+~/.local/bin/arch-soundpad
+~/.local/share/applications/arch-soundpad.desktop
+```
 
-1. Open app.
-2. Click `Add Clips` and choose your audio files.
-3. In your voice app, select input device: `soundpad_mic`.
-4. Choose a source from `Mic Input Source`, then click `Connect Mic To Soundpad`.
-5. Click `Play` on any clip.
-6. Optional: select a clip then click `Set Hotkey` to assign keybind.
-7. Enable `Global Hotkeys (X11)` to trigger clips even when app is unfocused.
-8. If a key is already used by dwm (for example `Alt+1`), the status bar will show `Global hotkey conflicts`.
-   Use a different bind like `Ctrl+Alt+1` or `Super+1`.
-9. Use profile controls (`New`, `Rename`, `Delete`, dropdown) to manage separate sound sets.
-10. Use `Export` to save all profiles to a `.json` file.
-11. Use `Import` to load a `.json` file (replace all profiles or merge).
-12. Optional: enable `Push-To-Talk Mic Route` and set `PTT key`.
-13. Use `Diagnostics` button to check routing/hotkeys/profile state.
-14. Use `Restore Backup` to load a snapshot from `~/.config/arch-soundpad/backups/`.
+You can then launch it from your **desktop environment launcher**.
 
-## Profile Backup And Share
+---
 
-- Export format includes:
-  - `current_profile`
-  - all `profiles` with clips and hotkeys
-- Import supports:
-  - Replace mode: overwrite current profile set
-  - Merge mode: keep existing profiles and add imported ones (name conflicts get `-2`, `-3`, ...)
-- Automatic backups:
-  - A timestamped backup is written on each profile save.
-  - Backup folder: `~/.config/arch-soundpad/backups/`
+# Usage
 
-## AUR Package
+1. Launch the app.
+2. Click **Add Clips** and choose audio files.
+3. In Discord/OBS, select input device:
+
+```
+soundpad_mic
+```
+
+4. Select your real microphone from **Mic Input Source**.
+5. Click **Connect Mic To Soundpad**.
+6. Press **Play** on a clip.
+
+Optional features:
+
+- Select a clip and click **Set Hotkey**
+- Enable **Global Hotkeys (X11)** to trigger clips while unfocused
+- Use **Profiles** to organize sound sets
+- Export or import profiles as JSON
+
+---
+
+# Hotkeys
+
+Default controls:
+
+| Key | Action |
+|----|----|
+| Enter | Play selected clip |
+| Delete | Remove selected clip |
+| Alt + \\ | Stop playback |
+
+Clip hotkeys are **user configurable**.
+
+Global hotkeys work on **X11 window managers** like **dwm** when `python-xlib` is installed.
+
+---
+
+# Profiles
+
+Profiles allow different soundboards.
+
+Profile actions:
+
+- Create new profile
+- Rename profile
+- Delete profile
+- Switch profiles
+
+---
+
+# Profile Export / Import
+
+Profiles can be saved and shared as JSON.
+
+Export contains:
+
+```
+current_profile
+profiles
+clips
+hotkeys
+```
+
+Import modes:
+
+**Replace mode**
+
+- Replaces all existing profiles.
+
+**Merge mode**
+
+- Keeps existing profiles.
+- Adds imported ones.
+- Name conflicts automatically become:
+
+```
+profile
+profile-2
+profile-3
+```
+
+---
+
+# Automatic Backups
+
+Each profile save automatically creates a backup.
+
+Backup location:
+
+```
+~/.config/arch-soundpad/backups/
+```
+
+Backups are timestamped.
+
+You can restore them using the **Restore Backup** button.
+
+---
+
+# Configuration Files
+
+Clips and settings are stored in:
+
+```
+~/.config/arch-soundpad/clips.json
+```
+
+---
+
+# Diagnostics Tool
+
+The **Diagnostics** button checks:
+
+- PipeWire / PulseAudio status
+- Virtual device routing
+- Hotkey system
+- Profile configuration
+
+Useful for troubleshooting.
+
+---
+
+# Development
+
+Clone the repository:
+
+```bash
+git clone https://github.comjameelsawafta/arch-soundpad.git
+cd arch-soundpad
+```
+
+Run quick test:
+
+```bash
+./smoke_test.sh
+```
+
+Headless check:
+
+```bash
+python3 soundpad_app.py --headless-check
+```
+
+---
+
+# AUR Package
+
+Install from AUR:
 
 ```bash
 yay -S arch-soundpad
@@ -88,33 +256,13 @@ cd arch-soundpad
 makepkg -si
 ```
 
-For maintainers: package source is now fetched from GitHub release tarballs.
+The AUR package downloads source from **GitHub release tarballs**.
 
-## Local Checks (Dev Repo)
+---
 
-Quick smoke test:
+# Notes
 
-```bash
-cd /home/jameel-sawafta/temp/arch-soundpad
-./smoke_test.sh
-```
-
-Headless check only:
-
-```bash
-python3 /home/jameel-sawafta/temp/arch-soundpad/soundpad_app.py --headless-check
-```
-
-## Hotkeys (Current)
-
-- `Enter`: play selected clip
-- `Delete`: remove selected clip
-- `Alt+\`: stop playback
-- Per-clip hotkeys are user-defined (no default bind)
-- Global hotkeys work on X11 (dwm) when `python-xlib` is installed.
-
-## Notes
-
-- Clips are saved in `~/.config/arch-soundpad/clips.json`.
-- The app uses `ffmpeg` for playback.
-- If you hear nothing, verify PipeWire/PulseAudio is running and `pactl info` works.
+- Playback uses **ffmpeg**
+- Audio routing uses **PipeWire / PulseAudio**
+- Designed for **Arch Linux**
+- Global hotkeys currently support **X11 environments**
