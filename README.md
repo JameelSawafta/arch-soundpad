@@ -222,7 +222,7 @@ Useful for troubleshooting.
 Clone the repository:
 
 ```bash
-git clone https://github.comjameelsawafta/arch-soundpad.git
+git clone https://github.com/jameelsawafta/arch-soundpad.git
 cd arch-soundpad
 ```
 
